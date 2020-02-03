@@ -10,18 +10,22 @@ import Header from '../components/Header';
 import './MainPage.css';
 
 class MainPage extends Component {
+
+  filterRobots = () => {
+    return this.props.robots.filter(robot => {
+      return robot.name.toLowerCase().includes(this.props.searchField.toLowerCase());
+    });
+  }
+
   render() {
     const { robots, searchField, onSearchChange, isPending } = this.props;
-    const filteredRobots = robots.filter(robot => {
-      return robot.name.toLowerCase().includes(searchField.toLowerCase());
-    })
     return (
       <div className='tc'>
         <SearchBox searchChange={onSearchChange} />
         <Scroll>
           {isPending ? <h1>Loading</h1> :
             <ErrorBoundry>
-              <CardList robots={filteredRobots} />
+              <CardList robots={this.filterRobots(robots)} />
             </ErrorBoundry>
           }
         </Scroll>
